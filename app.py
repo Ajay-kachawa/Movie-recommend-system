@@ -38,16 +38,16 @@ def recommend(movie):
 movies_dict=pickle.load(open('movie_dict', 'rb'))
 movies=pd.DataFrame(movies_dict)
 
+from io import BytesIO
+
 def load_similarity_from_gdrive():
     url = "https://drive.google.com/uc?id=1lFmXEiXUE4f6L2rtHicGHvwiu1AyoU_j"
     response = requests.get(url)
     response.raise_for_status()
-
-    # Debug: Check what content is returned
-    print("First 200 bytes of response:")
-    print(response.content[:200])
-
     return pickle.load(BytesIO(response.content))
+
+similarity = load_similarity_from_gdrive()
+
 
 
 
