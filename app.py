@@ -40,16 +40,28 @@ movies=pd.DataFrame(movies_dict)
 
 from io import BytesIO
 
+from io import BytesIO
+
 def load_similarity_from_gdrive():
-    url = "https://drive.google.com/uc?id=1lFmXEiXUE4f6L2rtHicGHvwiu1AyoU_j"
+    import requests
+    import pickle
+
+    # Direct download link from Google Drive
+    url = "https://drive.google.com/uc?export=download&id=1lFmXEiXUE4f6L2rtHicGHvwiu1AyoU_j"
+    
     response = requests.get(url)
     response.raise_for_status()
-    return pickle.load(BytesIO(response.content))
 
+    # Convert response to BytesIO and load with pickle
+    file_data = BytesIO(response.content)
+
+    try:
+        return pickle.load(file_data)
+    except Exception as e:
+        print("❌ Error loading pickle file:", e)
+        return None
+        
 similarity = load_similarity_from_gdrive()
-
-
-
 
 st.title("Movie Recommendation System")
 selected_movie_name = st.selectbox('Enter the movie name',movies['title'].values)
