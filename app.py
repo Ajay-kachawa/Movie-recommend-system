@@ -42,9 +42,12 @@ def load_similarity_from_gdrive():
     url = "https://drive.google.com/uc?id=1lFmXEiXUE4f6L2rtHicGHvwiu1AyoU_j"
     response = requests.get(url)
     response.raise_for_status()
-    return pickle.load(BytesIO(response.content))
 
-similarity = load_similarity_from_gdrive()
+    # Debug: Check what content is returned
+    print("First 200 bytes of response:")
+    print(response.content[:200])
+
+    return pickle.load(BytesIO(response.content))
 
 
 
