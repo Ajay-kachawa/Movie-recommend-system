@@ -38,7 +38,13 @@ def recommend(movie):
 movies_dict=pickle.load(open('movie_dict', 'rb'))
 movies=pd.DataFrame(movies_dict)
 
-similarity=pickle.load(open('similarity.pkl', 'rb'))
+def load_similarity_from_gdrive():
+    url = "https://drive.google.com/uc?id=1lFmXEiXUE4f6L2rtHicGHvwiu1AyoU_j"
+    response = requests.get(url)
+    response.raise_for_status()
+    return pickle.load(BytesIO(response.content))
+
+similarity = load_similarity_from_gdrive()
 
 
 
