@@ -1,5 +1,5 @@
 import pickle
-
+from io import BytesIO
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -38,30 +38,9 @@ def recommend(movie):
 movies_dict=pickle.load(open('movie_dict', 'rb'))
 movies=pd.DataFrame(movies_dict)
 
-from io import BytesIO
+similarity=pickle.load(open('similarity.pkl', 'rb'))
 
-from io import BytesIO
 
-def load_similarity_from_gdrive():
-    import requests
-    import pickle
-
-    # Direct download link from Google Drive
-    url = "https://drive.google.com/uc?export=download&id=1lFmXEiXUE4f6L2rtHicGHvwiu1AyoU_j"
-    
-    response = requests.get(url)
-    response.raise_for_status()
-
-    # Convert response to BytesIO and load with pickle
-    file_data = BytesIO(response.content)
-
-    try:
-        return pickle.load(file_data)
-    except Exception as e:
-        print("❌ Error loading pickle file:", e)
-        return None
-        
-similarity = load_similarity_from_gdrive()
 
 st.title("Movie Recommendation System")
 selected_movie_name = st.selectbox('Enter the movie name',movies['title'].values)
@@ -84,4 +63,3 @@ if st.button('Recommend'):
     with col5:
         st.write(names[4])
         st.image(posters[4])
-
