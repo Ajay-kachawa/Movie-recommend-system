@@ -38,7 +38,18 @@ def recommend(movie):
 movies_dict=pickle.load(open('movie_dict', 'rb'))
 movies=pd.DataFrame(movies_dict)
 
-similarity=pickle.load(open('similarity.pkl', 'rb'))
+def load_similarity_from_gdrive():
+    
+    url = "https://drive.google.com/uc?export=download&id=1lFmXEiXUE4f6L2rtHicGHvwiu1AyoU_j"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        return pickle.load(BytesIO(response.content))
+    except Exception as e:
+        print("❌ Error loading similarity.pkl from Google Drive:", e)
+        return None
+
+similarity = load_similarity_from_gdrive()
 
 
 
